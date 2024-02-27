@@ -17,7 +17,7 @@
 
 @use 'sass:map';
 @use '@angular/material' as mat;
-@use '../assets/utils.scss' as utils;
+@use '../../../../../../assets/utils.scss' as utils;
 
 @mixin nifi-theme($material-theme, $canvas-theme) {
     // Get the color config from the theme.
@@ -26,17 +26,36 @@
 
     // Get the color palette from the color-config.
     $primary-palette: map.get($color-config, 'primary');
-    $canvas-accent-palette: map.get($canvas-color-config, 'accent');
+    $canvas-primary-palette: map.get($canvas-color-config, 'primary');
 
     // Get hues from palette
     $primary-palette-default: mat.get-color-from-palette($primary-palette, default);
-    $canvas-accent-palette-default: mat.get-color-from-palette($canvas-accent-palette, default);
+    $canvas-primary-palette-A200: mat.get-color-from-palette($canvas-primary-palette, A100);
+    $canvas-primary-palette-500: mat.get-color-from-palette($canvas-primary-palette, 500);
 
-    .splash {
-        background-color: $primary-palette-default;
-    }
+    $surface: utils.get-surface($canvas-color-config);
+    $on-surface: utils.get-on-surface($canvas-color-config);
+    $on-surface-lighter: utils.get-on-surface($canvas-color-config, lighter);
 
-    .fa.fa-check.complete {
-        color: $canvas-accent-palette-default;
+    .parameter-context-inheritance {
+        .parameter-context-inheritance-list {
+            background: $primary-palette-default;
+
+            border: solid 1px $canvas-primary-palette-500;
+
+            .cdk-drag-disabled {
+                background: $on-surface-lighter;
+            }
+        }
+
+        .parameter-context-draggable-item {
+            border-bottom: solid 1px $canvas-primary-palette-500;
+            color: $on-surface;
+            background: $surface;
+        }
+
+        .cdk-drag-preview {
+            box-shadow: 0 3px 6px $canvas-primary-palette-A200;
+        }
     }
 }
