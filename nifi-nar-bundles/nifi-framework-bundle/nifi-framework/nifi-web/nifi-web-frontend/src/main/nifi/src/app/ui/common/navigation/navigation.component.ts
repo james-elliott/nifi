@@ -35,6 +35,11 @@ import { Storage } from '../../../service/storage.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { OS_SETTING, LIGHT_THEME, DARK_THEME, ThemingService } from '../../../service/theming.service';
 
+import {MatSnackBar} from '@angular/material/snack-bar';
+
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 @Component({
     selector: 'navigation',
     standalone: true,
@@ -47,7 +52,7 @@ import { OS_SETTING, LIGHT_THEME, DARK_THEME, ThemingService } from '../../../se
         RouterLink,
         MatButtonModule,
         FormsModule,
-        MatCheckboxModule
+        MatCheckboxModule,MatFormFieldModule, MatInputModule, MatButtonModule
     ],
     templateUrl: './navigation.component.html',
     styleUrls: ['./navigation.component.scss']
@@ -66,6 +71,7 @@ export class Navigation {
         private authStorage: AuthStorage,
         private authService: AuthService,
         private storage: Storage,
+        private _snackBar: MatSnackBar,
         private themingService: ThemingService
     ) {
         this.darkModeOn = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -121,5 +127,9 @@ export class Navigation {
         this.theme = theme;
         this.storage.setItem('theme', theme);
         this.themingService.toggleTheme(!!this.darkModeOn, theme);
+    }
+
+    openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action);
     }
 }
